@@ -2,36 +2,33 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast, Toaster } from "react-hot-toast";
 import logo from "../assets/st-lukes-logo-header.svg";
+import axios from "axios";
 import background from "../assets/medical-background.jpg";
-import AuthService from "../services/AuthService";
 
 const Register = () => {
+  const API_BASE_URL = import.meta.env.VITE_BASE_URI_AUTH;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [fullName, setFullName] = useState("");
-
-  const [username, setUsername] = useState("");
+  const [fullName, setfullName] = useState("");
   const [error, setError] = useState("");
-  const [message, setMessage] = useState("");
-  const navigate = useNavigate();
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
 
-
-  const handleRegister = async (e) => {
+  const handleRegistration = async (e) => {
     e.preventDefault();
     try {
-      const response = await AuthService.register({ fullName,email,username,password});
-      setMessage(response.data);
+      const userData = { fullName, email, password };
+      const response = await axios.post(`${API_BASE_URL}/signup`,
+        userData
+      );
 
-      if (response.data === "User registered successfully") {
-        navigate("/login");
-        toast.success("Registration successful");
-      }
+      console.log("User Registered:", response.data);
+      setRegistrationSuccess(true);
+      toast.success("Registration successful!");
+      window.location.href = "/login";
     } catch (error) {
-      setMessage("Registration failed");
+      setError("Invalid email or password.");
     }
   };
-
-
 
   return (
     <>
@@ -49,10 +46,10 @@ const Register = () => {
             <div className="w-full h-[2px] bg-black/10 dark:bg-darkborder"></div>
           </div>
           <form
-            onSubmit={handleRegister}
+            onSubmit={handleRegistration}
             className="grid grid-cols-1 gap-4 sm:grid-cols-2"
           >
-            <div className="sm:col-span-1">
+            <div className="sm:col-span-2">
               <label className="block text-sm font-medium leading-6 text-gray-900 mb-2">
                 Full Name:
               </label>
@@ -62,10 +59,10 @@ const Register = () => {
                 className="form-input"
                 required
                 value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
+                onChange={(e) => setfullName(e.target.value)}
               />
             </div>
-            <div className="sm:col-span-1">
+            <div className="sm:col-span-2">
               <label className="block text-sm font-medium leading-6 text-gray-900 mb-2">
                 Email Address:
               </label>
@@ -76,19 +73,6 @@ const Register = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div className="sm:col-span-2">
-              <label className="block text-sm font-medium leading-6 text-gray-900 mb-2">
-                User Name:
-              </label>
-              <input
-                type="text"
-                placeholder="User Name"
-                className="form-input"
-                required
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
               />
             </div>
             <div className="sm:col-span-2">
