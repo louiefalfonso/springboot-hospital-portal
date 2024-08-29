@@ -1,34 +1,33 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
+import AuthService from "../services/AuthService";
 import { toast, Toaster } from "react-hot-toast";
 import logo from "../assets/st-lukes-logo-header.svg";
 import background from "../assets/medical-background.jpg";
 
 const Login = () => {
-  const API_BASE_URL = import.meta.env.VITE_BASE_URI_DEV;
-  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+ 
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      if (!email || !password) {
-        setError("Please enter both email and password.");
-        return;
-      }
-      const response = await axios.post(`${API_BASE_URL}/login`, {
-        email,password,
-      });
-      const { token } = response.data;
-      localStorage.setItem("token", token);  
-      toast.success("Login Successful!");
-      window.location.href = "/dashboard";
-    } catch (error) {
-      setError("Invalid email or password.");
-    }
-  };
+ const handleLogin = async (e) => {
+   e.preventDefault();
+   try {
+     const response = await AuthService.login({ username, password });
+     if (response.data !== "Invalid credentials") {
+       localStorage.setItem("token", response.data);
+       navigate("/dashboard");
+       toast.success("Login successful");
+     } else {
+       setMessage("Invalid credentials");
+     }
+   } catch (error) {
+     setMessage("Invalid credentials");
+   }
+ };
 
   return (
     <>
@@ -53,8 +52,8 @@ const Login = () => {
                 type="email"
                 className="form-input"
                 required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 placeholder="Email Address"
               />
             </div>
@@ -78,7 +77,7 @@ const Login = () => {
           </form>
           <p className="mt-5 text-center text-muted dark:text-darkmuted">
             Not an Employee yet?{" "}
-            <Link to="/signup" className="text-blue-500 dark:text-white">
+            <Link to="/register" className="text-blue-500 dark:text-white">
               Create an Account
             </Link>
           </p>
