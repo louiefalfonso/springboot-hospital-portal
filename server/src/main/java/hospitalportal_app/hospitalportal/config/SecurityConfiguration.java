@@ -33,8 +33,11 @@ public class SecurityConfiguration<CorsConfigurationSource> {
 
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((authorize) ->
-                        authorize.requestMatchers(HttpMethod.GET, "/api/**").permitAll()
-                                .requestMatchers(HttpMethod.POST,"/auth/**").permitAll()
+                        authorize.requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/api/**").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/api/**").permitAll()
+                                .requestMatchers(HttpMethod.PUT,"/api/**").permitAll()
+                                .requestMatchers(HttpMethod.DELETE,"/api/**").permitAll()
                                 .requestMatchers("/auth/**").permitAll()
                                 .anyRequest().authenticated()
 
@@ -50,7 +53,7 @@ public class SecurityConfiguration<CorsConfigurationSource> {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("https://springboot-hospital-portal.onrender.com/"));
+        configuration.setAllowedOrigins(List.of("https://springboot-hospital-portal.onrender.com"));
         configuration.setAllowedOrigins(List.of("https://springboot3-stlukesapp.netlify.app"));
         configuration.setAllowedMethods(List.of("GET","POST","PUT","DELETE"));
         configuration.setAllowedHeaders(List.of("Authorization","Content-Type"));
