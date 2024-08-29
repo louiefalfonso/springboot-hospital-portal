@@ -50,7 +50,7 @@ public class SecurityConfiguration<CorsConfigurationSource> {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("https://springboot-hospitalmngt-app.onrender.com"));
+        configuration.setAllowedOrigins(List.of("https://springboot-hospital-portal.onrender.com/"));
         configuration.setAllowedOrigins(List.of("https://springboot3-stlukesapp.netlify.app"));
         configuration.setAllowedMethods(List.of("GET","POST"));
         configuration.setAllowedHeaders(List.of("Authorization","Content-Type"));
