@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { toast, Toaster } from "react-hot-toast";
 import logo from "../assets/st-lukes-logo-header.svg";
 import axios from "axios";
-import background from "../assets/medical-background.jpg";
+import background from "../assets/medical-background.webp";
 
 const Register = () => {
   const API_BASE_URL = import.meta.env.VITE_BASE_URI_AUTH;
