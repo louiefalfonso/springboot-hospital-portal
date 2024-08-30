@@ -1,6 +1,5 @@
 package hospitalportal_app.hospitalportal.controller;
 
-
 import hospitalportal_app.hospitalportal.dto.LoginUserDto;
 import hospitalportal_app.hospitalportal.dto.RegisterUserDto;
 import hospitalportal_app.hospitalportal.entity.User;

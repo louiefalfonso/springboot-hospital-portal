@@ -1,6 +1,8 @@
 package hospitalportal_app.hospitalportal.entity;
 
+import com.fasterxml.jackson.databind.deser.impl.CreatorCandidate;
 import jakarta.persistence.*;
+import jdk.jshell.Snippet;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -41,6 +43,7 @@ public class Patient {
 
     @Column(name = "type")
     private String type;
+
 
     public void setId(Long id) {
         this.id = id;
